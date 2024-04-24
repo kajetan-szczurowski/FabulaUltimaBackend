@@ -1,6 +1,6 @@
 const crypto = require("crypto");
 
-exports.handleRoll = function (payload){
+exports.handleRoll = function (payload, senderObject){
     const [rollCommand, metaCommand] = splitRollPayload(payload, '%');
     if (!rollCommand) return;
     const [rawOrder, comment] = splitRollPayload(rollCommand, '#');
@@ -13,7 +13,8 @@ exports.handleRoll = function (payload){
         text: text,
         result: result,
         rawOrder: rawOrder.trim(),
-        sender: 'Spy'
+        sender: senderObject.name,
+        color: senderObject.color 
     };
     if (comment) rollResult.comment = comment;
     return rollResult;
